@@ -1,4 +1,4 @@
-arrFCOVER <- c(
+arrTropicsFAPAR <- c(
                 19.95602,
                 4.377685,
                 20.25082,
@@ -37,8 +37,20 @@ arrLAI <- c(
             5.929941
            )
 
+arrTropicsLAI <- c(
+                   4.530477,
+                   0.5758984,
+                   8.969121,
+                   15.69066,
+                   27.18317,
+                   11.72343,
+                   26.84939,
+                   0,
+                   2.96937,
+                   2.811929
+                  )
 
-for (i in arrFCOVER) {
+for (i in arrTropicsFAPAR) {
   print(sqrt(i))
 }
 
@@ -47,5 +59,9 @@ for (i in arrFAPAR) {
 }
 
 for (i in arrLAI) {
+  print(sqrt(i))
+}
+
+for (i in arrTropicsLAI) {
   print(sqrt(i))
 }

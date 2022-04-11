@@ -10,18 +10,17 @@ library(randomForest)
 library(reprtree)
 library(MASS)
 
-num_files <- length(list.files("C:/Users/abhay_sharma/Desktop/NRCan/data/unsatDFFAPARLC"))
+num_files <- length(list.files("C:/Users/abhay_sharma/Desktop/NRCan/data/unsatDFTropicsLC"))
 for (i in 1:num_files) {
-  file_csv <- file.path("C:/Users/abhay_sharma/Desktop/NRCan/data/unsatDFFAPARLC/", paste0("unsatDFFAPARLC", i, ".csv"))
+  file_csv <- file.path("C:/Users/abhay_sharma/Desktop/NRCan/data/unsatDFTropicsLC/", paste0("unsatDFtropicsLC", i, ".csv"))
 
   if (file.exists(file_csv)) {
     df <- read.csv(file_csv)
     df_unique <- unique(df)
     df_sample <- head(df_unique, 100000)
-    names(df_sample) <- c("FAPAR", "b01", "b02", "vza", "vaa", "sza", "saa")
-    cat(paste0("Dimensions of unsatDFFAPARLC", i, ":"), dim(df_unique))
+    cat(paste0("Dimensions of unsatDFTropicsLC", i, ":"), dim(df_unique))
 
-    sample <- sample.split(df_sample$FAPAR, SplitRatio=0.7)
+    sample <- sample.split(df_sample$LAI, SplitRatio=0.7)
     train <- subset(df_sample, sample==TRUE)
     test <- subset(df_sample, sample==FALSE)
 
@@ -30,13 +29,13 @@ for (i in 1:num_files) {
 
     # dim(train)
     # dim(test)
-    # head(train$FAPAR)
+    # head(train$LAI)
     # dim(train_x)
     # head(train_x)
     # summary(train_x)
     # sapply(train_x, class)
 
-    regression_RF <- randomForest(train$FAPAR ~ .,
+    regression_RF <- randomForest(train$LAI ~ .,
                                   data=train_x,
                                   importance=TRUE,
                                   maxnodes=10000,
@@ -47,7 +46,7 @@ for (i in 1:num_files) {
     print(regression_RF)
     print(head(train_x))
 
-    paths <- file.path("C:/Users/abhay_sharma/Desktop/trees/unsatDFFAPARLC", paste0("unsatDFFAPARLC", i))
+    paths <- file.path("C:/Users/abhay_sharma/Desktop/trees/unsatDFTropicsLC", paste0("unsatDFTropicsLAILC", i))
     dir.create(paths)
     for (x in 1:regression_RF$ntree) {
       if (x < 10)
@@ -63,12 +62,12 @@ for (i in 1:num_files) {
     }
 
     pred_train <- predict(regression_RF, newdata=train_x)
-    k_train <- kde2d(pred_train, train$FAPAR, n=200)
-    image(k_train, main=paste0("Fit Comparison for unsatDFFAPARLC", i), xlab="Predicted Train Values", ylab="Actual Values", col=hcl.colors(12, "YlOrRd", rev=TRUE))
+    k_train <- kde2d(pred_train, train$LAI, n=200)
+    image(k_train, main=paste0("Fit Comparison for unsatDFTropicsLC", i), xlab="Predicted Train Values", ylab="Actual Values", col=hcl.colors(12, "YlOrRd", rev=TRUE))
 
     pred_test <- predict(regression_RF, newdata=test_x)
-    k_test <- kde2d(pred_test, test$FAPAR, n=200)
-    image(k_test, main=paste0("Fit Comparison for unsatDFFAPARLC", i), xlab="Predicted Test Values", ylab="Actual Values", col=hcl.colors(12, "YlOrRd", rev=TRUE))
+    k_test <- kde2d(pred_test, test$LAI, n=200)
+    image(k_test, main=paste0("Fit Comparison for unsatDFTropicsLC", i), xlab="Predicted Test Values", ylab="Actual Values", col=hcl.colors(12, "YlOrRd", rev=TRUE))
   }
   else {
     next

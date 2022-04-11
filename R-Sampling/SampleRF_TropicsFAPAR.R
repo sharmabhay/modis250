@@ -46,9 +46,13 @@ for (i in 1:num_files) {
     print(regression_RF)
     print(head(train_x))
 
-    files <- file.path("C:/Users/abhay_sharma/Desktop/trees/unsatDFTropicsLC", paste0("unsatDFTropicsLC", i))
+    paths <- file.path("C:/Users/abhay_sharma/Desktop/trees/unsatDFTropicsLC", paste0("unsatDFTropicsFAPARLC", i))
+    dir.create(paths)
     for (x in 1:regression_RF$ntree) {
-      sink(file.path(files, paste0("tree0", x, ".txt")))
+      if (x < 10)
+        sink(file.path(paths, paste0("tree0", x, ".txt")))
+      else
+        sink(file.path(paths, paste0("tree", x, ".txt")))
 
       tree <- getTree(regression_RF, k=x, labelVar=TRUE)
       realTree <- reprtree:::as.tree(tree, regression_RF)
