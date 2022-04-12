@@ -1,5 +1,5 @@
 // list of classifier numbers
-var classifierNumbers = ee.List([1, 2, 3, 4, 5, 6, 7, 9, 8, 10]);
+var classifierNumbers = ee.List([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 var classifierPath = ee.String("gs://modis250m/GEE-sampling/code/trees/unsatDFFAPARLC/unsatDFFAPARLC");
 // var classifierPath = ee.String("gs://modis250m/GEE-sampling/code/trees/unsatDFLAILC/unsatDFLAILC");
 var numTrees = ee.Number(10);
