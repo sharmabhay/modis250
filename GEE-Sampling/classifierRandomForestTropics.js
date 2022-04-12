@@ -1,7 +1,8 @@
 // list of classifier numbers
-var classifierNumbers = ee.List.sequence(1, 10);
-var classifierPath = ee.String("gs://modis250m/GEE-sampling/code/trees/unsatDFLC");
-var numTrees = ee.Number(3);
+var classifierNumbers = ee.List([1, 2, 3, 4, 5, 6, 7, 9, 10]); // 8 has insufficient data
+var classifierPath = ee.String("gs://modis250m/GEE-sampling/code/trees/unsatDFTropicsLC/unsatDFTropicsFAPARLC");
+// var classifierPath = ee.String("gs://modis250m/GEE-sampling/code/trees/unsatDFTropicsLC/unsatDFTropicsLAILC");
+var numTrees = ee.Number(10);
 
 // gets the classifier of the randomForest in path
 var getClassifier = function(path, lcNum, numTrees) {
@@ -34,6 +35,19 @@ var applyClassifier = function(inputImage, classifierDictionary) {
   return ee.Image(inputImage.updateMask(inputImage.select("LC_Type3").eq(ee.Number(classifierDictionary.get("classifierNumber"))))
                             .classify(classifierDictionary.get("classifier"), ee.String("classifiedImageClass").cat(classifierDictionary.get("classifierNumber"))));
 }
+/* Same code as:
+var maskedClassifier = function(inputImage, classifierDictionary) {
+  var inputImage = ee.Image(inputImage);
+  var classifierDictionary = ee.Dictionary(classifierDictionary);
+
+  // select the number mask and create a binary mask
+  var numMask = inputImage.select("LC_Type3");
+  var mask = numMask.eq(ee.Number(classifierDictionary.get("classifierNumber")));
+
+  return inputImage.updateMask(mask).classify(classifierDictionary.get("classifier"),
+                                              ee.String("classifiedImageClass").cat(classifierDictionary.get("classifierNumber")));
+}
+*/
 
 // make a list of classifier dictionaries
 var classifierDictionaryList = classifierNumbers.map(makeClassifierElement.bind(null, classifierPath, numTrees));
