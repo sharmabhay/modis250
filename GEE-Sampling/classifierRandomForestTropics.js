@@ -68,9 +68,15 @@ print(classifiedImageList);
 print(ee.ImageCollection(classifiedImageList));
 
 // display the classified images on the map
-Map.addLayer(ee.Image(classifiedImageList.get(0)));
-Map.addLayer(ee.Image(classifiedImageList.get(1)));
-Map.addLayer(ee.Image(classifiedImageList.get(2)));
+Map.addLayer(ee.Image(classifiedImageList.get(0)), null, "Grasslands");
+Map.addLayer(ee.Image(classifiedImageList.get(1)), null, "Shrublands");
+Map.addLayer(ee.Image(classifiedImageList.get(2)), null, "Broadleaf Croplands");
+Map.addLayer(ee.Image(classifiedImageList.get(3)), null, "Savannas");
+Map.addLayer(ee.Image(classifiedImageList.get(4)), null, "Evergreen Broadleaf Forests");
+Map.addLayer(ee.Image(classifiedImageList.get(5)), null, "Deciduous Broadleaf Forests");
+Map.addLayer(ee.Image(classifiedImageList.get(6)), null, "Evergreen Needleleaf Forests");
+Map.addLayer(ee.Image(classifiedImageList.get(7)), null, "Non-Vegetated Lands");
+Map.addLayer(ee.Image(classifiedImageList.get(8)), null, "Urban and Built-up Lands");
 
 // statements used for debugging
 print(ee.String("Debugging Results: \n\n").cat(
@@ -81,4 +87,4 @@ print(ee.String("Debugging Results: \n\n").cat(
 print(ee.Classifier(ee.Dictionary(classifierDictionaryList.get(0)).get("classifier")).schema());
 Map.addLayer(MCD12Q1, null, "MCD12Q1");
 Map.addLayer(MOD09GA, null, "MOD09GA");
-Map.addLayer(inputImage.select("LC_Type3").eq(ee.Number(ee.Dictionary(classifierDictionaryList.get(0)).get("classifierNumber"))), null, "Mask1");
+Map.addLayer(inputImage.select("LC_Type3").eq(ee.Number(ee.Dictionary(classifierDictionaryList.get(0)).get("classifierNumber"))), null, "MaskTest");
